@@ -3,19 +3,32 @@ require('styles/App.scss');
 
 import React from 'react';
 
-let imageDatas = require('json!../data/imagedatas.json');
+let imageDatas = require('!json!../data/imagedatas.json');
 
+/*
+ * 拼装图片地址
+ * @pram Array imageDataArr 图片数组
+ * @return Array
+ * */
 function genImageURL(imageDataArr) {
-    for (var i = 0, j = imageDataArr.length; i < j; i++) {
-        var singleImageData = imageDataArr[i];
-        singleImageData.imageURL = require('../images/' + singleImageData.fileName);
-        imageDataArr[i] = singleImageData;
-    }
+
+//    for (let i = 0, j = imageDataArr.length; i < j; i++) {
+//        let singleImageData = imageDataArr[i];
+//        singleImageData.imageURL = require('../images/' + singleImageData.fileName);
+//        imageDataArr[i] = singleImageData;
+//    }
+
+    imageDataArr.forEach(s => {
+        let imageUrl = require('../images/' + s.fileName);
+        s.imageURL = imageUrl;
+    })
 
     return imageDataArr;
 }
 
 imageDatas = genImageURL(imageDatas);
+
+console.log(imageDatas)
 
 
 class ImgFigure extends React.Component {
@@ -36,7 +49,7 @@ class ImgFigure extends React.Component {
 
 class AppComponent extends React.Component {
     render() {
-        var controllerUnits = [],
+        let controllerUnits = [],
             imgFigures = [];
 
         imageDatas.forEach(function(value, index){
