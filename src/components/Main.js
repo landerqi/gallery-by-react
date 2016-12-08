@@ -2,6 +2,7 @@ require('normalize.css');
 require('styles/App.scss');
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 let imageDatas = require('!json!../data/imagedatas.json');
 
@@ -34,13 +35,13 @@ console.log(imageDatas)
 class ImgFigure extends React.Component {
     render() {
         return (
-            <figure>
+            <figure className ="img-figure">
                 <img className = "img-little"
                      src = {this.props.data.imageURL}
                      alt = {this.props.data.title}
                 />
                 <figcaption>
-                    <h2>{this.props.data.title}</h2>
+                    <h2 className = "img-title">{this.props.data.title}</h2>
                 </figcaption>
             </figure>
         )
@@ -48,6 +49,37 @@ class ImgFigure extends React.Component {
 }
 
 class AppComponent extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+
+	Constant: {
+		centerPos: {
+			left: 0,
+			rigth: 0
+		},
+		hPosRange: {   //水平方向取值范围
+			leftSecX: [0, 0],
+			rightSecX: [0,0],
+			y: [0, 0]
+		},
+		vPosRange: {  //垂直方向取值范围
+			x: [0, 0],
+			topY: [0, 0]
+		}
+	}
+
+	//组件加载后，为每张图片计算其位置的范围
+	componentDidMount() {
+		//首先拿到舞台的大小
+		let stageDom = ReactDOM.findDOMNode(this.refs.stage),
+			stageW = stageDom.scrollWidth,
+			stageH = stageDom.scrollHeight,
+			halfStageW = Math.ceil(stageW / 2),
+			halfStageH = Math.ceil(stageH / 2);
+
+	}
+
     render() {
         let controllerUnits = [],
             imgFigures = [];
@@ -58,11 +90,11 @@ class AppComponent extends React.Component {
         });
 
         return (
-            <section className = "stage">
-                <section className = "img-sec">
+            <section className="stage" ref="stage">
+                <section className="img-sec">
                     {imgFigures}
                 </section>
-                <nav className = "controllor-nav">
+                <nav className="controllor-nav">
                     {controllerUnits}
                 </nav>
             </section>
