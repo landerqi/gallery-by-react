@@ -6,6 +6,9 @@ import ReactDOM from 'react-dom';
 
 let imageDatas = require('!json!../data/imagedatas.json');
 
+console.log('React', React);
+console.log('ReactDOM', ReactDOM);
+
 /*
  * 拼装图片地址
  * @pram Array imageDataArr 图片数组
@@ -29,7 +32,7 @@ function genImageURL(imageDataArr) {
 
 imageDatas = genImageURL(imageDatas);
 
-console.log(imageDatas)
+console.log('imageDatas', imageDatas)
 
 
 class ImgFigure extends React.Component {
@@ -53,7 +56,7 @@ class AppComponent extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.rearrange = this.rearrange.bind(this);
+		//this.rearrange = this.rearrange.bind(this);
 
 		this.Constant = {
 			centerPos: {
@@ -110,6 +113,11 @@ class AppComponent extends React.Component {
 		this.Constant.vPosRange.x[1] = halfImgW;
 
 		this.rearrange(0);
+
+		//数据打印
+		console.log('stageDom', stageDom)
+		console.log('ImgFigureDOM', ImgFigureDOM)
+		console.log('Constant', this.Constant)
 	}
 
 	/*
