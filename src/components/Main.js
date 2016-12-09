@@ -9,6 +9,8 @@ let imageDatas = require('!json!../data/imagedatas.json');
 console.log('React', React);
 console.log('ReactDOM', ReactDOM);
 
+
+
 /*
  * 拼装图片地址
  * @pram Array imageDataArr 图片数组
