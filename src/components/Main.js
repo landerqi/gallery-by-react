@@ -11,6 +11,8 @@ console.log('ReactDOM', ReactDOM);
 
 
 
+
+
 /*
  * 拼装图片地址
  * @pram Array imageDataArr 图片数组
