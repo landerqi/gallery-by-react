@@ -67,11 +67,15 @@ class ImgFigure extends React.Component {
 	
 	/**
 	 * imgFigure的点击处理函数
-	 * @param {any} e
+	 * @param {event} e
 	 * @memberOf ImgFigure
 	 */
 	handleClick(e) {
-		this.props.inverse();
+		if(this.props.arrage.isCenter) {
+			this.props.inverse();
+		} else {
+			this.props.center();
+		}
 
 		e.stopPropagation();
 		e.preventDefault();
@@ -90,6 +94,11 @@ class ImgFigure extends React.Component {
 			// 	styleObj[value + 'transform'] = 'rotate(' + this.props.arrage.rotate + 'deg)';
 			// }.bind(this));
 			styleObj['transform'] = 'rotate(' + this.props.arrage.rotate + 'deg)';
+		}
+
+		//如果是中间的图，调高z-index
+		if(this.props.arrage.isCenter) {
+			styleObj.zIndex = 11;
 		}
 
 		let ImgFigureClassName = 'img-figure';
@@ -146,6 +155,7 @@ class AppComponent extends React.Component {
 				// 	}
 				//  rotate: 0,    旋转角度
 				//  isInverse: false    图片正反面
+				//  isCenter: false  图片是否居中
 				// }
 			]
 		}
@@ -243,11 +253,12 @@ class AppComponent extends React.Component {
 
 			imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
 
-			//首先居中 centerIndex 的图片
-			imgsArrangeCenterArr[0].pos = centerPos;
-
-			//居中的 centerIndex 图片不需要旋转
-			imgsArrangeCenterArr[0].rotate = 0;
+			//首先居中 centerIndex 的图片, 居中的 centerIndex 图片不需要旋转
+			imgsArrangeCenterArr[0] = {
+				pos: centerPos,
+				rotate: 0,
+				isCenter: true
+			}
 
 			//取出要布局上侧图片的状态信息
 			topImgSpliceIndex = Math.floor(Math.random() * (imgsArrangeArr.length - topImgNum));
@@ -263,7 +274,8 @@ class AppComponent extends React.Component {
 						top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
 						left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
 					},
-					rotate: get30DegRandom()
+					rotate: get30DegRandom(),
+					isCenter: false
 				}
 			});
 
@@ -283,7 +295,8 @@ class AppComponent extends React.Component {
 						top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
 						left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
 					},
-					rotate: get30DegRandom()
+					rotate: get30DegRandom(),
+					isCenter: false
 				}
 			}
 
@@ -302,6 +315,19 @@ class AppComponent extends React.Component {
 
 	}
 
+	
+	/**
+	 * 利用rearrange函数，居中对应index图片
+	 * @param {number} index 需要被居中图片对应图片信息数组index值
+	 * @returns {function}
+	 * @memberOf AppComponent
+	 */
+	center(index) {
+		return () => {
+			this.rearrange(index);
+		}
+	}
+
     render() {
         let controllerUnits = [],
             imgFigures = [];
@@ -314,10 +340,11 @@ class AppComponent extends React.Component {
 						top: 0
 					},
 					rotate: 0,
-					isInverse: false
+					isInverse: false,
+					isCenter: false
 				}
 			}
-            imgFigures.push(<ImgFigure data={value} key={'imgFigures' + index} ref={'ImgFigure' + index} arrage={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)}/>);
+            imgFigures.push(<ImgFigure data={value} key={'imgFigures' + index} ref={'ImgFigure' + index} arrage={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
         }.bind(this));
 
         return (
