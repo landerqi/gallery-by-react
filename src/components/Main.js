@@ -3,6 +3,7 @@ require('styles/App.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import AuthorSign from './AuthorSign';
 
 let imageDatas = require('!json!../data/imagedatas.json');
 
@@ -63,8 +64,8 @@ class ImgFigure extends React.Component {
 		super(props, context);
 		this.handleClick = this.handleClick.bind(this);
 	}
-	
-	
+
+
 	/**
 	 * imgFigure的点击处理函数
 	 * @param {event} e
@@ -315,7 +316,7 @@ class AppComponent extends React.Component {
 
 	}
 
-	
+
 	/**
 	 * 利用rearrange函数，居中对应index图片
 	 * @param {number} index 需要被居中图片对应图片信息数组index值
@@ -347,6 +348,7 @@ class AppComponent extends React.Component {
             imgFigures.push(<ImgFigure data={value} key={'imgFigures' + index} ref={'ImgFigure' + index} arrage={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
         }.bind(this));
 
+
         return (
             <section className="stage" ref="stage">
                 <section className="img-sec">
@@ -355,6 +357,7 @@ class AppComponent extends React.Component {
                 <nav className="controllor-nav">
                     {controllerUnits}
                 </nav>
+				<AuthorSign />
             </section>
         );
     }
