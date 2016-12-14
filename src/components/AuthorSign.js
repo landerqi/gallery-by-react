@@ -1,7 +1,7 @@
 require('styles/AuthorSign.scss');
 import React, {Component} from 'react';
 
-class authorSign extends Component {
+class AuthorSign extends Component {
     constructor(props, context) {
         super(props, context);
 		this.dataObj = {
@@ -22,4 +22,4 @@ class authorSign extends Component {
     }
 }
 
-export default authorSign;
+export default AuthorSign;
