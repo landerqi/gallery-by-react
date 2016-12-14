@@ -30,3 +30,6 @@ src/libsass
 #vim缓存文件
 *.swp
 *.swo
+
+#c-tags
+tags
