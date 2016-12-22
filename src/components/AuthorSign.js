@@ -1,13 +1,13 @@
 require('styles/AuthorSign.scss');
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class AuthorSign extends Component {
     constructor(props, context) {
         super(props, context);
-		this.dataObj = {
-			name: 'Landerqi',
-			desc: 'hahaha, a front-end engineer'
-		}
+        this.dataObj = {
+            name: 'Landerqi',
+            desc: 'hahaha, a front-end engineer'
+        }
 
     }
 

@@ -21,18 +21,18 @@ console.log('ReactDOM', ReactDOM);
  * */
 function genImageURL(imageDataArr) {
 
-//    for (let i = 0, j = imageDataArr.length; i < j; i++) {
-//        let singleImageData = imageDataArr[i];
-//        singleImageData.imageURL = require('../images/' + singleImageData.fileName);
-//        imageDataArr[i] = singleImageData;
-//    }
+	//    for (let i = 0, j = imageDataArr.length; i < j; i++) {
+	//        let singleImageData = imageDataArr[i];
+	//        singleImageData.imageURL = require('../images/' + singleImageData.fileName);
+	//        imageDataArr[i] = singleImageData;
+	//    }
 
-    imageDataArr.forEach(s => {
-        let imageUrl = require('../images/' + s.fileName);
-        s.imageURL = imageUrl;
-    })
+	imageDataArr.forEach(s => {
+		let imageUrl = require('../images/' + s.fileName);
+		s.imageURL = imageUrl;
+	})
 
-    return imageDataArr;
+	return imageDataArr;
 }
 
 imageDatas = genImageURL(imageDatas);
@@ -72,7 +72,7 @@ class ImgFigure extends React.Component {
 	 * @memberOf ImgFigure
 	 */
 	handleClick(e) {
-		if(this.props.arrage.isCenter) {
+		if (this.props.arrage.isCenter) {
 			this.props.inverse();
 		} else {
 			this.props.center();
@@ -81,16 +81,16 @@ class ImgFigure extends React.Component {
 		e.stopPropagation();
 		e.preventDefault();
 	}
-    render() {
+	render() {
 		let styleObj = {};
 
 		//如果props属性中指定了这张图片的位置，则使用
-		if(this.props.arrage.pos) {
+		if (this.props.arrage.pos) {
 			styleObj = this.props.arrage.pos;
 		}
 
 		//如果图片旋转角度有值并且不为0, 添加旋转角度
-		if(this.props.arrage.rotate) {
+		if (this.props.arrage.rotate) {
 			// (['-moz-', '-ms-', '-webkit-', '']).forEach(function(value) {
 			// 	styleObj[value + 'transform'] = 'rotate(' + this.props.arrage.rotate + 'deg)';
 			// }.bind(this));
@@ -98,30 +98,30 @@ class ImgFigure extends React.Component {
 		}
 
 		//如果是中间的图，调高z-index
-		if(this.props.arrage.isCenter) {
+		if (this.props.arrage.isCenter) {
 			styleObj.zIndex = 11;
 		}
 
 		let ImgFigureClassName = 'img-figure';
 		ImgFigureClassName += this.props.arrage.isInverse ? ' is-inverse' : '';
 
-        return (
-            <figure className ={ImgFigureClassName} style={styleObj} onClick={this.handleClick}>
-                <img className = "img-little"
-                     src = {this.props.data.imageURL}
-                     alt = {this.props.data.title}
-                />
-                <figcaption>
-                    <h2 className ="img-title">{this.props.data.title}</h2>
+		return (
+			<figure className={ImgFigureClassName} style={styleObj} onClick={this.handleClick}>
+				<img className="img-little"
+					src={this.props.data.imageURL}
+					alt={this.props.data.title}
+					/>
+				<figcaption>
+					<h2 className="img-title">{this.props.data.title}</h2>
 					<div className="img-back" onClick={this.handleClick}>
 						<p>
 							{this.props.data.desc}
 						</p>
 					</div>
-                </figcaption>
-            </figure>
-        )
-    }
+				</figcaption>
+			</figure>
+		)
+	}
 }
 
 class AppComponent extends React.Component {
@@ -138,7 +138,7 @@ class AppComponent extends React.Component {
 			},
 			hPosRange: {   //水平方向取值范围
 				leftSecX: [0, 0],
-				rightSecX: [0,0],
+				rightSecX: [0, 0],
 				y: [0, 0]
 			},
 			vPosRange: {  //垂直方向取值范围
@@ -254,65 +254,65 @@ class AppComponent extends React.Component {
 
 			imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex, 1);
 
-			//首先居中 centerIndex 的图片, 居中的 centerIndex 图片不需要旋转
-			imgsArrangeCenterArr[0] = {
-				pos: centerPos,
-				rotate: 0,
-				isCenter: true
+		//首先居中 centerIndex 的图片, 居中的 centerIndex 图片不需要旋转
+		imgsArrangeCenterArr[0] = {
+			pos: centerPos,
+			rotate: 0,
+			isCenter: true
+		}
+
+		//取出要布局上侧图片的状态信息
+		topImgSpliceIndex = Math.floor(Math.random() * (imgsArrangeArr.length - topImgNum));
+		imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgNum);
+
+		console.log('imgsArrangeTopArr', imgsArrangeTopArr);
+		console.log('imgsArrangeTopArr', topImgNum);
+
+		//布局上侧图片
+		imgsArrangeTopArr.forEach(function (value, index) {
+			imgsArrangeTopArr[index] = {
+				pos: {
+					top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
+					left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
+				},
+				rotate: get30DegRandom(),
+				isCenter: false
+			}
+		});
+
+		//布局两侧图片状态信息
+		for (let i = 0, j = imgsArrangeArr.length, k = j / 2; i < j; i++) {
+			let hPosRangeLORX = null;
+
+			//前半部分布局左边，右半部分布局右边
+			if (i < k) {
+				hPosRangeLORX = hPosRangeLeftSecX;
+			} else {
+				hPosRangeLORX = hPosRangeRigthSecx;
 			}
 
-			//取出要布局上侧图片的状态信息
-			topImgSpliceIndex = Math.floor(Math.random() * (imgsArrangeArr.length - topImgNum));
-			imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgNum);
-
-			console.log('imgsArrangeTopArr', imgsArrangeTopArr);
-			console.log('imgsArrangeTopArr', topImgNum);
-
-			//布局上侧图片
-			imgsArrangeTopArr.forEach(function(value, index) {
-				imgsArrangeTopArr[index] = {
-					pos: {
-						top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
-						left: getRangeRandom(vPosRangeX[0], vPosRangeX[1])
-					},
-					rotate: get30DegRandom(),
-					isCenter: false
-				}
-			});
-
-			//布局两侧图片状态信息
-			for(let i = 0, j = imgsArrangeArr.length, k = j / 2; i < j; i++) {
-				let hPosRangeLORX = null;
-
-				//前半部分布局左边，右半部分布局右边
-				if (i < k) {
-					hPosRangeLORX = hPosRangeLeftSecX;
-				} else {
-					hPosRangeLORX = hPosRangeRigthSecx;
-				}
-
-				imgsArrangeArr[i] = {
-					pos: {
-						top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
-						left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
-					},
-					rotate: get30DegRandom(),
-					isCenter: false
-				}
+			imgsArrangeArr[i] = {
+				pos: {
+					top: getRangeRandom(hPosRangeY[0], hPosRangeY[1]),
+					left: getRangeRandom(hPosRangeLORX[0], hPosRangeLORX[1])
+				},
+				rotate: get30DegRandom(),
+				isCenter: false
 			}
+		}
 
-			//把取出来用于上侧的图片塞回imgsArrangArr
-			if(imgsArrangeTopArr && imgsArrangeTopArr[0]) {
-				imgsArrangeArr.splice(topImgSpliceIndex, 0, imgsArrangeTopArr[0]);
-			}
-			//把取出来用于中心的图片塞回imgsArrangArr
-			imgsArrangeArr.splice(centerIndex, 0, imgsArrangeCenterArr[0]);
+		//把取出来用于上侧的图片塞回imgsArrangArr
+		if (imgsArrangeTopArr && imgsArrangeTopArr[0]) {
+			imgsArrangeArr.splice(topImgSpliceIndex, 0, imgsArrangeTopArr[0]);
+		}
+		//把取出来用于中心的图片塞回imgsArrangArr
+		imgsArrangeArr.splice(centerIndex, 0, imgsArrangeCenterArr[0]);
 
-			this.setState({
-				imgsArrangeArr: imgsArrangeArr
-			});
+		this.setState({
+			imgsArrangeArr: imgsArrangeArr
+		});
 
-			console.log('存储所有图片的壮态信息', imgsArrangeArr);
+		console.log('存储所有图片的壮态信息', imgsArrangeArr);
 
 	}
 
@@ -329,12 +329,12 @@ class AppComponent extends React.Component {
 		}
 	}
 
-    render() {
-        let controllerUnits = [],
-            imgFigures = [];
+	render() {
+		let controllerUnits = [],
+			imgFigures = [];
 
-        imageDatas.forEach(function(value, index){
-			if(!this.state.imgsArrangeArr[index]) {
+		imageDatas.forEach(function (value, index) {
+			if (!this.state.imgsArrangeArr[index]) {
 				this.state.imgsArrangeArr[index] = {
 					pos: {
 						left: 0,
@@ -345,22 +345,22 @@ class AppComponent extends React.Component {
 					isCenter: false
 				}
 			}
-            imgFigures.push(<ImgFigure data={value} key={'imgFigures' + index} ref={'ImgFigure' + index} arrage={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
-        }.bind(this));
+			imgFigures.push(<ImgFigure data={value} key={'imgFigures' + index} ref={'ImgFigure' + index} arrage={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} />);
+		}.bind(this));
 
 
-        return (
-            <section className="stage" ref="stage">
-                <section className="img-sec">
-                    {imgFigures}
-                </section>
-                <nav className="controllor-nav">
-                    {controllerUnits}
-                </nav>
+		return (
+			<section className="stage" ref="stage">
+				<section className="img-sec">
+					{imgFigures}
+				</section>
+				<nav className="controllor-nav">
+					{controllerUnits}
+				</nav>
 				<AuthorSign />
-            </section>
-        );
-    }
+			</section>
+		);
+	}
 }
 
 AppComponent.defaultProps = {
