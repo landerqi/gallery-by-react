@@ -3,7 +3,7 @@ one photo gallery project based on react
 ### install 
 run  
 ```
-npm install
+npm install     //install dependencies
 ```
 in the root directory of the project.
 
