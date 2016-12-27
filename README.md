@@ -14,4 +14,4 @@ npm start
 ```
 turn on a dev serve, then you can see the project in browser.
 
-*More operate please see file named `package.json` in the root directory*
+*More operate please see file named `package.json` in the root directory.*
